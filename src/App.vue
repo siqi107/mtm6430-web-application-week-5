@@ -1,10 +1,15 @@
+<!-- Using routes in the App.vue file.-->
+
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <!-- <router-link> is a component (from the vue-router library) whose job is to link to a specific route.  -->
+      <router-link to="/">Home</router-link>|
+      <router-link :to="{ name: 'about' }">About</router-link>|
+      <router-link :to="{ name: 'todo-list'}">To do list</router-link>
     </div>
-    <router-view />
+    <!-- <router-view/> is essentially a placeholder where the contents of our component will be rendered onto the page. -->
+    <router-view/>
   </div>
 </template>
 
