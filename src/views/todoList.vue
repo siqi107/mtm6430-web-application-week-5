@@ -4,6 +4,7 @@
     <TodoForm @newTodo="addTodo">
       <h2 slot="title">Add a Todo</h2>
       <p slot="description">Your todos will be saved.</p>
+      <h3>ooo</h3>
     </TodoForm>
     <toDo :todos="todoList" @removeTodo="appDeleteToDo"/>
   </div>
@@ -12,6 +13,7 @@
 <script>
 import toDo from "@/components/toDo.vue";
 import TodoForm from "@/components/TodoForm.vue";
+import axios from "axios";
 
 export default {
   data() {
@@ -30,6 +32,18 @@ export default {
     },
     addTodo(todo) {
       this.todoList.push(todo);
+      // js syntax, then() will run or catch() the error
+      axios
+        .put(
+          "https://guo00090-vue-and-axios.firebaseio.com/data.json",
+          this.todoList
+        )
+        .then(response => {
+          console.log("Your data is saved status:" + response.status);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   }
 };
