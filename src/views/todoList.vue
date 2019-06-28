@@ -18,7 +18,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      todoList: ["Walk the dog", "Go for ride"]
+      todoList: []
     };
   },
   components: {
@@ -29,22 +29,44 @@ export default {
     appDeleteToDo(index) {
       // take out 1 item start from the index
       this.todoList.splice(index, 1);
+      axios.put(
+        "https://guo00090-vue-and-axios.firebaseio.com/data.json",
+        this.todoList
+      );
     },
     addTodo(todo) {
       this.todoList.push(todo);
-      // js syntax, then() will run or catch() the error
       axios
+        // put method: where to go, what to send
         .put(
           "https://guo00090-vue-and-axios.firebaseio.com/data.json",
           this.todoList
         )
+        // then method: reseive reponse and show status.success:200
         .then(response => {
+          console.log(response);
           console.log("Your data is saved status:" + response.status);
         })
+        // catch method: catch the error
         .catch(error => {
           console.log(error);
         });
     }
+  },
+  // hook
+  created() {
+    axios
+      .get("https://guo00090-vue-and-axios.firebaseio.com/data.json")
+      // function(response) {}
+      .then(response => {
+        console.log(response.data);
+        if (response.data) {
+          this.todoList = response.data;
+        }
+      })
+      .catch(error => {
+        console.log("There was an error in getting data:" + error.response);
+      });
   }
 };
 </script>
